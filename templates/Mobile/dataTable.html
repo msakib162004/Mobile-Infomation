@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+<body>
+    <div class="p-4" style="display: flex; justify-content: space-between">
+
+        <div>
+            <button class="btn btn-secondary" onclick="location.href='http://127.0.0.1:8000/'" type="button" >Home Page</button>
+            <button class="btn btn-secondary" onclick="location.href='{% url 'form'  %}'">Add Mobile</button>
+        </div>
+{#        <div class="input-group mb-4 w-25">#}
+{#          <input name="Model" id="Model" type="text" class="form-control " placeholder="Search phones via model" aria-label="Recipient's username" aria-describedby="button-addon2">#}
+{#          <button onclick="location.href='{% url 'search'  %}'" class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>#}
+{#        </div>#}
+{#         <div class="input-group mb-4 w-25">#}
+{#          <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">#}
+{#          <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>#}
+{#        </div>#}
+        <form style="padding-bottom: 10px" action="{% url 'search' %}" method="post">
+             {% csrf_token %}
+                <input name="Model" id="Model" type="text" placeholder="Search via model">
+                <button type="submit" id="button-addon2">Search</button>
+        </form>
+        <form action="{% url 'search_janCode' %}" method="post">
+             {% csrf_token %}
+                <input name="JAN_Code" id="JAN_Code" type="text" placeholder="Search via JAN Code">
+                <button type="submit" id="button-addon2">Search</button>
+        </form>
+
+    </div>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+              <th scope="col">#</th>
+              <th scope="col">Brand Name</th>
+              <th scope="col">Model</th>
+              <th scope="col">Color</th>
+              <th scope="col">JAN Code</th>
+              <th scope="col">Image</th>
+              <th scope="col">Select</th>
+        </tr>
+      </thead>
+      <tbody>
+         {% for info in data %}
+            <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <td>{{ info.Brand_Name }}</td>
+                  <td>{{ info.Model }}</td>
+                  <td>{{ info.Color }}</td>
+                  <td>{{ info.JAN_Code }}</td>
+                  <td>{{ info.Image }}</td>
+                  <td>
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button onclick="location.href='{% url 'form' %}'" type="button" class="btn btn-secondary">Add</button>
+                          <button onclick="location.href='{% url 'remove' info.JAN_Code %}'"  type="button" class="btn btn-secondary">Remove</button>
+                      </div>
+                  </td>
+            </tr>
+         {% endfor %}
+
+
+      </tbody>
+    </table>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+  <script>
+      $( function() {
+        $( "#Model" ).autocomplete({
+          source: "{% url 'autocomplete' %}"
+        });
+      } );
+  </script>
+  <script>
+      $( function() {
+        $( "#JAN_Code" ).autocomplete({
+          source: "{% url 'autocomplete' %}"
+        });
+      } );
+  </script>
+
+</body>
+</html>

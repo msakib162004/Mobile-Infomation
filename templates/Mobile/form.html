@@ -1,0 +1,44 @@
+{% extends "Mobile/base.html" %}
+
+{% block body %}
+
+    <form action="{% url 'mobilelist' %}" method="post">
+         {% csrf_token %}
+          <div class="form-group">
+            <label >Brand Name</label>
+            <input type="text" class="form-control" name="Brand_Name"  placeholder="Enter Brand Name" required>
+            {% for err in form.Brand_Name.errors %}
+                <small class="text-danger">{{ err }}</small>
+            {% endfor %}
+          </div>
+          <div class="form-group">
+            <label >Model</label>
+            <input type="text" class="form-control" name="Model" placeholder="Enter Model" required>
+              {% for err in form.Model.errors %}
+                <small class="text-danger">{{ err }}</small>
+              {% endfor %}
+          </div>
+           <div class="form-group">
+            <label >Color</label>
+            <input type="text" class="form-control" name="Color" placeholder="Enter Color" required>
+          </div>
+          <div class="form-group">
+            <label>JAN Code</label>
+            <input type="text" class="form-control" name="JAN_Code" placeholder="Enter JAN Code" required>
+             {% for err in form.JAN_Code.errors %}
+                <small class="text-danger">{{ err }}</small>
+             {% endfor %}
+          </div>
+          <div class="form-group">
+            <label>Image URL</label>
+            <input type="text" class="form-control" name="Image" placeholder="Enter Image URL">
+             {% for err in form.Image.errors %}
+                <small class="text-danger">{{ err }}</small>
+             {% endfor %}
+          </div>
+
+          <button type="submit" class="btn btn-primary">Submit Information</button>
+    </form>
+
+
+{% endblock %}
